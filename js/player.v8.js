@@ -242,14 +242,21 @@
     });
 
     if (lyricBtn && lyricEl) {
+      // 收起态：即便 CSS 被覆盖，也保证歌词不可交互、不可选中、不被读屏读到
+      lyricEl.setAttribute('aria-hidden', 'true');
+      lyricBtn.setAttribute('aria-expanded', 'false');
       lyricBtn.addEventListener('click', function () {
-        lyricEl.classList.toggle('show');
-        lyricBtn.classList.toggle('active');
-        if (lyricEl.classList.contains('show') && lrcIndex >= 0) scrollLrc(lrcIndex);
+        var show = !lyricEl.classList.contains('show');
+        lyricEl.classList.toggle('show', show);
+        lyricBtn.classList.toggle('active', show);
+        lyricEl.setAttribute('aria-hidden', show ? 'false' : 'true');
+        lyricBtn.setAttribute('aria-expanded', show ? 'true' : 'false');
+        if (show && lrcIndex >= 0) scrollLrc(lrcIndex);
       });
     }
     if (lrcEl) {
       lrcEl.addEventListener('click', function (e) {
+        if (lyricEl && !lyricEl.classList.contains('show')) return;
         var it = e.target.closest ? e.target.closest('.lrc-line') : null;
         if (!it) return;
         var i = parseInt(it.getAttribute('data-i'), 10);
