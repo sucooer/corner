@@ -43,6 +43,5 @@ pnpm-lock.yaml
 __*
 
 # ---------- 本地工具数据 ----------
-# .workbuddy/ 存的是会话与项目记忆，保留 memory 便于追溯，其余忽略
-.workbuddy/*
-!.workbuddy/memory/
+# .workbuddy/ 是本机工具目录（会话缓存 + 项目记忆），属于个人本地数据，不入库
+.workbuddy/
